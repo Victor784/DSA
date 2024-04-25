@@ -1,6 +1,20 @@
 # DSA
 Data structures and algorithms implementation meant for a better understanding 
 
+# HOW TO USE 
+1. Clone the repo
+2. Run configure.sh
+3. Run build.sh
+4. in DataStrucutres/lib you should have the headers and the necessary libs for importing in other projects
+--
+If you need to extend the library
+1. Add .hpp and .cpp files with the buissness logic
+2. Run the configure.sh and build.sh scripts again
+--
+If you need to refactor any file
+1. Refactor the necessary files
+2. Run the build.sh script again
+
 # Data structures 
 The following data structures should be are / will be implemented using C++ : 
 1. Array
