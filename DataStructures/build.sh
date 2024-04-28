@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPT_DIR="$(dirname "$0")"
+SCRIPT_DIR=$(realpath "$(dirname "$0")")
 
 # Change directory to the build directory
 cd "${SCRIPT_DIR}/build"
@@ -17,7 +17,11 @@ cd "lib"
 DEST_DIR="$(pwd)"
 
 # Source directory - add here all hpp headers once created
+
 DYNAMICARRAY_HEADER_SOURCE="${SCRIPT_DIR}/DynamicArray/DynamicArray.hpp"
+
+echo ${DYNAMICARRAY_HEADER_SOURCE}
+echo ${DEST_DIR}
 
 # Copy the source header to the destination directory  copy the headers
 cp  "${DYNAMICARRAY_HEADER_SOURCE}" "${DEST_DIR}"
