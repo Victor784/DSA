@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.25)
 project(DynamicArray)
 
-set(SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/DynamicArray.cpp ${CMAKE_CURRENT_SOURCE_DIR}/DynamicArray.hpp)
 message("-> DynamicArray generation started...")
 
-add_library(DynamicArray ${SOURCES})
+add_library(DynamicArray INTERFACE)
 
-target_include_directories(DynamicArray PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(DynamicArray INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 
 set_target_properties(DynamicArray
     PROPERTIES
