@@ -38,7 +38,7 @@ public:
   void push_back(std::optional<T> newElement) {
     if (m_size >= m_capacity)
       resize();
-    m_data[++m_size] = newElement.data();
+    m_data[m_size++] = newElement.value();
   }
   std::optional<T> pop_back() {
     if (m_size > 0)
@@ -49,7 +49,7 @@ public:
   void set(std::optional<T> newElement, index_t index) {
     while (index >= m_size)
       this->push_back(std::nullopt);
-    m_data[index] = newElement;
+    m_data[index] = newElement.value();
   }
   std::optional<T> get(index_t index) {
     if (index >= m_size) {
@@ -73,7 +73,7 @@ private:
     size_t newCapacity = m_capacity * GROWTH_FACTOR;
 
     // create new array with a bigger capacity
-    T *newArray = new T[newCapacity];
+    std::optional<T> *newArray = new std::optional<T>[newCapacity];
 
     std::copy(m_data, m_data + m_size, newArray);
 
