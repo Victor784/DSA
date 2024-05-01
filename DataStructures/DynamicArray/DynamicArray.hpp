@@ -4,6 +4,7 @@
 #include <iostream>
 #include <optional>
 #include <stdexcept>
+#include <utility>
 
 using index_t = size_t;
 
@@ -20,38 +21,51 @@ public:
 
     m_size = 0;
     m_capacity = MIN_CAPACITY;
-    m_data = new std::optional<T>[m_capacity];
-    if (!m_data)
-      throw std::bad_alloc();
+    m_data = std::make_unique<std::optional<T>[]>(m_capacity);
   }
-  ~DynamicArray() { delete[] m_data; }
+  ~DynamicArray() = default;
 
   DynamicArray(const DynamicArray &other) = delete;
   DynamicArray &operator=(const DynamicArray &other) = delete;
 
-  DynamicArray(DynamicArray &&other) noexcept = default;
-  DynamicArray &operator=(DynamicArray &&other) noexcept = default;
+  // clang-format off
+  DynamicArray(DynamicArray &&other) noexcept
+      : std::exchange(m_size,other.getLength()),
+        std::exchange(m_capacity,other.getCapacity()),
+        m_data(std::move(other.m_data)) {}
 
+  DynamicArray &operator=(DynamicArray &&other) noexcept {
+    if (this != &other) {
+      std::exchange(m_size, other.getLength());
+      std::exchange(m_capacity, other.getCapacity());
+      m_data = std::move(other.m_data);
+    }
+    return *this;
+  }
+  // clang-format on
   std::size_t getLength() { return m_size; }
   std::size_t getCapacity() { return m_capacity; }
 
-  void push_back(std::optional<T> newElement) {
+  void push_back(const std::optional<T> &newElement) {
     if (m_size >= m_capacity)
       resize();
-    m_data[m_size++] = newElement.value();
+    if (newElement != std::nullopt)
+      m_data[m_size++] = newElement.value();
   }
   std::optional<T> pop_back() {
     if (m_size > 0)
-      return m_data[m_size--];
+      return m_data[--m_size];
     else
       return std::nullopt;
   }
-  void set(std::optional<T> newElement, index_t index) {
-    while (index >= m_size)
+  void set(const std::optional<T> &newElement, index_t index) {
+    while (index >= m_size) {
       this->push_back(std::nullopt);
-    m_data[index] = newElement.value();
+      index += 1;
+    }
+    this->push_back(newElement);
   }
-  std::optional<T> get(index_t index) {
+  std::optional<T> get(const index_t &index) {
     if (index >= m_size) {
       throw std::out_of_range("Index out of bounds");
     }
@@ -69,27 +83,21 @@ public:
 
 private:
   void resize() {
-    // get the neccessary space needed
     size_t newCapacity = m_capacity * GROWTH_FACTOR;
+    auto newArray = std::make_unique<std::optional<T>[]>(newCapacity);
 
-    // create new array with a bigger capacity
-    std::optional<T> *newArray = new std::optional<T>[newCapacity];
+    for (index_t i = 0; i < m_size; ++i) {
+      newArray[i] = std::move(m_data[i]);
+    }
 
-    std::copy(m_data, m_data + m_size, newArray);
+    m_data = std::move(newArray);
 
-    // free the memory from the old heap location
-    delete[] m_data;
-
-    // reroute the pointer to point to the new array
-    m_data = newArray;
-
-    // save the new capacity
     m_capacity = newCapacity;
   }
 
   std::size_t m_size;
   std::size_t m_capacity;
-  std::optional<T> *m_data;
+  std::unique_ptr<std::optional<T>[]> m_data;
 };
 } // namespace arrays
 } // namespace vics_data_structures
