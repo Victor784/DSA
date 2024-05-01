@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <iostream>
+#include <mutex>
 #include <optional>
 #include <stdexcept>
 #include <utility>
@@ -47,12 +48,14 @@ public:
   std::size_t getCapacity() { return m_capacity; }
 
   void push_back(const std::optional<T> &newElement) {
+    std::lock_guard<std::mutex> lock(dynamicArrayMutex);
     if (m_size >= m_capacity)
       resize();
     if (newElement != std::nullopt)
       m_data[m_size++] = newElement.value();
   }
   std::optional<T> pop_back() {
+    std::lock_guard<std::mutex> lock(dynamicArrayMutex);
     if (m_size > 0)
       return m_data[--m_size];
     else
@@ -98,6 +101,7 @@ private:
   std::size_t m_size;
   std::size_t m_capacity;
   std::unique_ptr<std::optional<T>[]> m_data;
+  std::mutex dynamicArrayMutex;
 };
 } // namespace arrays
 } // namespace vics_data_structures

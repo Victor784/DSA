@@ -29,5 +29,5 @@ cp  "${DYNAMICARRAY_HEADER_SOURCE}" "${DEST_DIR}"
 
 # automatic find and copy of all .lib files compiled and existing
 
-cd "../build/lib/Debug"
-find . -type f -name "*.lib" -exec cp {} "${DEST_DIR}" \;
+#cd "../build/lib/Debug"
+#find . -type f -name "*.lib" -exec cp {} "${DEST_DIR}" \;

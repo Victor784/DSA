@@ -26,7 +26,10 @@ TEST(DynamicArrayTest,
   vics_data_structures::arrays::DynamicArray<int> arr;
   ASSERT_EQ(arr.getCapacity(), 10); // Test that initial capacity is 10s
   EXPECT_EQ(arr.getLength(), 0);    // Init the size ptr is at the beggining
-  size_t initialSize = sizeof(arr);
+  size_t initialSize = 0;
+  for (int i = 0; i < arr.getLength(); ++i) {
+    initialSize += sizeof(arr.get(i));
+  }
   EXPECT_LE(initialSize,
             sizeof(size_t) * 2 +
                 sizeof(int) *
@@ -40,7 +43,10 @@ TEST(DynamicArrayTest,
   vics_data_structures::arrays::DynamicArray<char> arr;
   ASSERT_EQ(arr.getCapacity(), 10); // Test that initial capacity is 10s
   EXPECT_EQ(arr.getLength(), 0);    // Init the size ptr is at the beggining
-  size_t initialSize = sizeof(arr);
+  size_t initialSize = 0;
+  for (int i = 0; i < arr.getLength(); ++i) {
+    initialSize += sizeof(arr.get(i));
+  }
   EXPECT_LE(initialSize,
             sizeof(size_t) * 2 +
                 sizeof(char) *
@@ -54,7 +60,10 @@ TEST(DynamicArrayTest,
   vics_data_structures::arrays::DynamicArray<custom_types::Point> arr;
   ASSERT_EQ(arr.getCapacity(), 10); // Test that initial capacity is 10s
   EXPECT_EQ(arr.getLength(), 0);    // Init the size ptr is at the beggining
-  size_t initialSize = sizeof(arr);
+  size_t initialSize = 0;
+  for (int i = 0; i < arr.getLength(); ++i) {
+    initialSize += sizeof(arr.get(i));
+  }
   EXPECT_LE(initialSize,
             sizeof(size_t) * 2 +
                 sizeof(custom_types::Point) *
