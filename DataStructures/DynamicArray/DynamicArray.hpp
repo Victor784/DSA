@@ -47,11 +47,11 @@ public:
   std::size_t getLength() { return m_size; }
   std::size_t getCapacity() { return m_capacity; }
 
-  void push_back(const std::optional<T> &newElement) {
+  void push_back(const std::optional<T> &newElement = std::nullopt) {
     std::lock_guard<std::mutex> lock(dynamicArrayMutex);
     if (m_size >= m_capacity)
       resize();
-    if (newElement != std::nullopt)
+    if (newElement.has_value())
       m_data[m_size++] = newElement.value();
   }
   std::optional<T> pop_back() {
@@ -60,19 +60,6 @@ public:
       return m_data[--m_size];
     else
       return std::nullopt;
-  }
-  void set(const std::optional<T> &newElement, index_t index) {
-    while (index >= m_size) {
-      this->push_back(std::nullopt);
-      index += 1;
-    }
-    this->push_back(newElement);
-  }
-  std::optional<T> get(const index_t &index) {
-    if (index >= m_size) {
-      throw std::out_of_range("Index out of bounds");
-    }
-    return m_data[index];
   }
   bool is_empty() { return m_size == 0; }
 
