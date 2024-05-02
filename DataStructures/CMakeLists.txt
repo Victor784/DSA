@@ -6,11 +6,13 @@ set(CMAKE_CXX_STANDARD 20)
 message("-> CMake generation started...")
 #Modules
 add_subdirectory(DynamicArray)
+add_subdirectory(LinkedLists)
 
 add_library(DataStructures INTERFACE)
 
 #Linking
 target_link_libraries(DataStructures INTERFACE DynamicArray)
+target_link_libraries(DataStructures INTERFACE LinkedLists)
 
 install(TARGETS DataStructures
         EXPORT DataStructuresTargets
@@ -32,7 +34,15 @@ target_include_directories(DynamicArrayTest PUBLIC ${HEADERS_DIR})
 target_link_libraries(DynamicArrayTest gtest gtest_main DynamicArray)
 add_test(NAME DynamicArrayTest COMMAND DynamicArrayTest)
 
+# LinkedLists fixture
+add_executable(LinkedListsTest test/LinkedListsTest.cpp)
+set(HEADERS_DIR "${CMAKE_SOURCE_DIR}/lib")
+target_include_directories(LinkedListsTest PUBLIC ${HEADERS_DIR})
+target_link_libraries(LinkedListsTest gtest gtest_main LinkedLists)
+add_test(NAME LinkedListsTest COMMAND LinkedListsTest)
+
 add_dependencies(DynamicArrayTest DynamicArray)
+add_dependencies(LinkedListsTest LinkedLists )
 
 # Some other fixture
 #add_executable(SomeOtherTest test/SomeOtherTest.cpp)
