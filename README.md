@@ -1,11 +1,13 @@
 # DSA
-Data structures and algorithms implementation meant for a better understanding 
+Data structures and algorithms implementation meant for a better understanding. This library is a header only library at the moment.
+The DS should be templatizited , so please note that if you need to refactor / extend the lib you should also refactor / extend and 
+run the tests to be sure that the functionalitty is not broken.
 
 # HOW TO USE 
 1. Clone the repo
 2. Run configure.sh
 3. Run build.sh
-4. in DataStrucutres/lib you should have the headers and the necessary libs for importing in other projects
+4. in DataStrucutres/lib you should have the headers
 --
 If you need to extend the library
 1. Add .hpp and .cpp files with the buissness logic
@@ -16,8 +18,8 @@ If you need to refactor any file
 2. Run the build.sh script again
 
 # Data structures 
-The following data structures should be are / will be implemented using C++ : 
-1. Array
+The following data structures should be / will be implemented using C++ : 
+1. Dynamic Array
 2. Linked list 
 3. Table
      3.a Hash table 
@@ -37,4 +39,5 @@ The following data structures should be are / will be implemented using C++ :
 # Algorhitmhs
 The algorithms implemented are / will be :
 1. Binary search 
-2. TBD...
+2. Find shortest path in graph
+3. Navigate labyrint 
