@@ -48,22 +48,16 @@ public:
     pointer operator->() { return m_ptr; }
 
     Iterator &operator++() {
-      // if the user calls list.end() it will get an iterator over the last
-      // element, so after 1 increment the iterator has a nullptr and further
-      // itaration should not be  not possible
       if (m_ptr == nullptr) {
-        throw std::out_of_range("Iterator out of bounds");
+        throw std::out_of_range("Null element referenced");
       }
       m_ptr = m_ptr->next;
       return *this;
     }
 
     Iterator operator++(int) {
-      // if the user calls list.end() it will get an iterator over the last
-      // element, so after 1 increment the iterator has a nullptr and further
-      // itaration should not be  not possible
       if (m_ptr == nullptr) {
-        throw std::out_of_range("Iterator out of bounds");
+        throw std::out_of_range("Null element referenced");
       }
       Iterator tmp = *this;
       ++(*this);
@@ -71,22 +65,16 @@ public:
     }
 
     Iterator &operator--() {
-      // if the user calls list.begin() it will get an iterator over the first
-      // element, so after 1 decrement the iterator has a nullptr and further
-      // itaration should not be  not possible
       if (m_ptr == nullptr) {
-        throw std::out_of_range("Iterator out of bounds");
+        throw std::out_of_range("Null element referenced");
       }
       m_ptr = m_ptr->prev;
       return *this;
     }
 
     Iterator operator--(int) {
-      // if the user calls list.begin() it will get an iterator over the first
-      // element, so after 1 decrement the iterator has a nullptr and further
-      // itaration should not be  not possible
       if (m_ptr == nullptr) {
-        throw std::out_of_range("Iterator out of bounds");
+        throw std::out_of_range("Null element referenced");
       }
       Iterator tmp = *this;
       --(*this);
@@ -233,6 +221,7 @@ public:
     return data;
   }
   void erase(index_t pos) {
+    Node<T> *current;
     if (!m_head)
       throw std::out_of_range("Index out of bounds");
     if (pos == 0) {
@@ -241,17 +230,16 @@ public:
       pop_back();
     } else {
       std::lock_guard<std::mutex> lock(m_mutex);
-      Node<T> *current;
-      if (pos <= m_size / 2;) // in case the index is closer to the head
+      if (pos <= m_size / 2) // in case the index is closer to the head
       {
-        Node<T> *current = m_head;
-        for (size_t i = 0; i < index; i++) {
+        current = m_head;
+        for (size_t i = 0; i < pos; i++) {
           current = current->next;
         }
       } else //  else the index is closer to the tail
       {
-        Node<T> *current = m_tail;
-        for (size_t i = m_size - 1; i >= 0; i--) {
+        current = m_tail;
+        for (size_t i = m_size - 1; i > pos; i--) {
           current = current->prev;
         }
       }
@@ -277,16 +265,16 @@ public:
       throw std::out_of_range("Index out of bounds");
     }
     Node<T> *current;
-    if (index <= m_size / 2;) // in case the index is closer to the head
+    if (index <= m_size / 2) // in case the index is closer to the head
     {
-      Node<T> *current = m_head;
+      current = m_head;
       for (size_t i = 0; i < index; i++) {
         current = current->next;
       }
     } else //  else the index is closer to the tail
     {
-      Node<T> *current = m_tail;
-      for (size_t i = m_size - 1; i >= 0; i--) {
+      current = m_tail;
+      for (size_t i = m_size - 1; i > index; i--) {
         current = current->prev;
       }
     }

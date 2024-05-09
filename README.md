@@ -19,8 +19,8 @@ run the tests to be sure that the functionalitty is not broken.
 
 # Data structures 
 The following data structures should be / will be implemented using C++ : 
-1. Dynamic Array
-2. Linked list 
+1. Dynamic Array - done 
+2. Linked list(singly/doubly) - done
 3. Table
      3.a Hash table 
      3.b Some other kind of tables?
