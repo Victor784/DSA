@@ -44,11 +44,23 @@ public:
     pointer operator->() { return m_ptr; }
 
     Iterator &operator++() {
+      // if the user calls list.end() it will get an iterator over the last
+      // element, so after 1 increment the iterator has a nullptr and further
+      // itaration should not be  not possible
+      if (m_ptr == nullptr) {
+        throw std::out_of_range("Iterator out of bounds");
+      }
       m_ptr = m_ptr->next;
       return *this;
     }
 
     Iterator operator++(int) {
+      // if the user calls list.end() it will get an iterator over the last
+      // element, so after 1 increment the iterator has a nullptr and further
+      // itaration should not be  not possible
+      if (m_ptr == nullptr) {
+        throw std::out_of_range("Iterator out of bounds");
+      }
       Iterator tmp = *this;
       ++(*this);
       return tmp;
