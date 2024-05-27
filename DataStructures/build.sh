@@ -21,7 +21,8 @@ DEST_DIR="$(pwd)"
 DYNAMICARRAY_HEADER_SOURCE="${SCRIPT_DIR}/DynamicArray/DynamicArray.hpp"
 SINGLYLINKEDLISTS_HEADER_SOURCE="${SCRIPT_DIR}/LinkedLists/SinglyLinkedList.hpp"
 DOUBLYLINKEDLISTS_HEADER_SOURCE="${SCRIPT_DIR}/LinkedLists/DoublyLinkedList.hpp"
-
+STACK_HEADER_SOURCE="${SCRIPT_DIR}/Stack/Stack.hpp"
+QUEUE_HEADER_SOURCE="${SCRIPT_DIR}/Queue/Queue.hpp"
 #echo ${DYNAMICARRAY_HEADER_SOURCE}
 #echo ${DEST_DIR}
 
@@ -29,6 +30,8 @@ DOUBLYLINKEDLISTS_HEADER_SOURCE="${SCRIPT_DIR}/LinkedLists/DoublyLinkedList.hpp"
 cp  "${DYNAMICARRAY_HEADER_SOURCE}" "${DEST_DIR}"
 cp  "${SINGLYLINKEDLISTS_HEADER_SOURCE}" "${DEST_DIR}"
 cp  "${DOUBLYLINKEDLISTS_HEADER_SOURCE}" "${DEST_DIR}"
+cp  "${STACK_HEADER_SOURCE}" "${DEST_DIR}"
+cp  "${QUEUE_HEADER_SOURCE}" "${DEST_DIR}"
 
 
 # automatic find and copy of all .lib files compiled and existing

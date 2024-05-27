@@ -192,6 +192,13 @@ public:
     if (!m_head)
       return std::nullopt;
     Node<T> *temp = m_head;
+    if (m_head == m_tail) {
+      const auto data = m_head->data;
+      delete m_head;
+      m_head = m_tail = nullptr;
+      m_size = 0;
+      return data;
+    }
     m_head->next->prev = nullptr;
     m_head = m_head->next;
     const auto data = temp->data;
