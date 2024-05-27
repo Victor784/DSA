@@ -7,12 +7,14 @@ message("-> CMake generation started...")
 #Modules
 add_subdirectory(DynamicArray)
 add_subdirectory(LinkedLists)
+add_subdirectory(Stack)
 
 add_library(DataStructures INTERFACE)
 
 #Linking
 target_link_libraries(DataStructures INTERFACE DynamicArray)
 target_link_libraries(DataStructures INTERFACE LinkedLists)
+target_link_libraries(DataStructures INTERFACE Stack)
 
 install(TARGETS DataStructures
         EXPORT DataStructuresTargets
@@ -41,8 +43,16 @@ target_include_directories(LinkedListsTest PUBLIC ${HEADERS_DIR})
 target_link_libraries(LinkedListsTest gtest gtest_main LinkedLists)
 add_test(NAME LinkedListsTest COMMAND LinkedListsTest)
 
+# Stack fixture
+add_executable(StackTest test/StackTest.cpp)
+set(HEADERS_DIR "${CMAKE_SOURCE_DIR}/lib")
+target_include_directories(StackTest PUBLIC ${HEADERS_DIR})
+target_link_libraries(StackTest gtest gtest_main Stack)
+add_test(NAME StackTest COMMAND StackTest)
+
 add_dependencies(DynamicArrayTest DynamicArray)
 add_dependencies(LinkedListsTest LinkedLists )
+add_dependencies(StackTest Stack )
 
 # Some other fixture
 #add_executable(SomeOtherTest test/SomeOtherTest.cpp)
