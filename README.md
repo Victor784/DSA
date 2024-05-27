@@ -21,20 +21,21 @@ run the tests to be sure that the functionalitty is not broken.
 The following data structures should be / will be implemented using C++ : 
 1. Dynamic Array - done 
 2. Linked list(singly/doubly) - done
-3. Table
-     3.a Hash table 
-     3.b Some other kind of tables?
+3. Stacks
 4. Queue
-5. Graph
-6. Stacks
-7. Binary trees
-   7.a. Binary search trees
-   7.b. Balanced trees
-8. Matrix
-9. Priority queue
-10. String
-11. Trees 
-12. Trie
+5. Table
+     5.a Hash table 
+     5.b Symbol table
+     5.C Lookup table
+6. Binary trees
+   6.a Binary search trees
+   6.b Balanced trees
+7. Heaps
+8. Priority Queue
+9. Graph
+10. Trie
+11. Matrix
+12. String
 
 # Algorhitmhs
 The algorithms implemented are / will be :
