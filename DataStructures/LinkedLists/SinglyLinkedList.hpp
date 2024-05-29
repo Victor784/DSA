@@ -77,8 +77,47 @@ public:
   // Constructors + Destructor definitions
   SinglyLinkedList() = default;
 
-  SinglyLinkedList(const SinglyLinkedList &other) = delete;
-  SinglyLinkedList &operator=(const SinglyLinkedList &other) = delete;
+  // SinglyLinkedList(const SinglyLinkedList &other) = delete;
+  // SinglyLinkedList &operator=(const SinglyLinkedList &other) = delete;
+  SinglyLinkedList(const SinglyLinkedList &other) {
+    if (other.m_head) {
+      m_head = new Node(other.m_head->data);
+      Node *current = m_head;
+      Node *otherCurrent = other.m_head->next;
+
+      while (otherCurrent) {
+        current->next = new Node(otherCurrent->data);
+        current = current->next;
+        otherCurrent = otherCurrent->next;
+      }
+
+      m_tail = current;
+    } else {
+      m_head = m_tail = nullptr;
+    }
+  }
+
+  SinglyLinkedList &operator=(const SinglyLinkedList &other) {
+    if (this != &other) {
+      clear();
+      if (other.m_head) {
+        m_head = new Node(other.m_head->data);
+        Node *current = m_head;
+        Node *otherCurrent = other.m_head->next;
+
+        while (otherCurrent) {
+          current->next = new Node(otherCurrent->data);
+          current = current->next;
+          otherCurrent = otherCurrent->next;
+        }
+
+        m_tail = current;
+      } else {
+        m_head = m_tail = nullptr;
+      }
+    }
+    return *this;
+  }
 
   SinglyLinkedList(SinglyLinkedList &&other)
       : m_head(other.getHeadNode()), m_tail(other.getTailNode()),
@@ -121,9 +160,9 @@ public:
     m_size = 0;
   }
 
-  Iterator<T> begin() { return Iterator<T>(m_head); }
+  Iterator<T> begin() const { return Iterator<T>(m_head); }
 
-  Iterator<T> end() { return Iterator<T>(m_tail); }
+  Iterator<T> end() const { return Iterator<T>(nullptr); }
 
   void push_front(const T &value) {
     std::lock_guard<std::mutex> lock(m_mutex);

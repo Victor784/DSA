@@ -24,6 +24,13 @@ public:
     m_capacity = MIN_CAPACITY;
     m_data = std::make_unique<std::optional<T>[]>(m_capacity);
   }
+  DynamicArray(const int initialCapacity) {
+
+    m_size = 0;
+    m_capacity = initialCapacity;
+    m_data = std::make_unique<std::optional<T>[]>(m_capacity);
+  }
+
   ~DynamicArray() = default;
 
   DynamicArray(const DynamicArray &other) = delete;
@@ -71,10 +78,17 @@ public:
     return m_data[index];
   }
 
+public:
+  void public_resize(std::optional<size_t> newCapacity = std::nullopt) {
+    resize(newCapacity);
+  }
+
 private:
-  void resize() {
-    size_t newCapacity = m_capacity * GROWTH_FACTOR;
-    auto newArray = std::make_unique<std::optional<T>[]>(newCapacity);
+  void resize(std::optional<size_t> newCapacity = std::nullopt) {
+    size_t effectiveCapacity = newCapacity.value_or(m_capacity * GROWTH_FACTOR);
+    if (effectiveCapacity <= m_capacity)
+      return;
+    auto newArray = std::make_unique<std::optional<T>[]>(effectiveCapacity);
 
     for (index_t i = 0; i < m_size; ++i) {
       newArray[i] = std::move(m_data[i]);
@@ -82,13 +96,54 @@ private:
 
     m_data = std::move(newArray);
 
-    m_capacity = newCapacity;
+    m_capacity = effectiveCapacity;
   }
 
   std::size_t m_size;
   std::size_t m_capacity;
   std::unique_ptr<std::optional<T>[]> m_data;
   std::mutex dynamicArrayMutex;
-};
+
+  template <typename T> struct Iterator {
+  public:
+    using iterator_category = std::forward_iterator_tag;
+    using difference_type = std::ptrdiff_t;
+    using value_type = T;
+    using pointer = T *;   // or also value_type*
+    using reference = T &; // or also value_type&
+
+    Iterator(std::optional<T> *ptr) : m_ptr(ptr) {}
+
+    reference operator*() const { return m_ptr->value(); }
+    pointer operator->() { return &(m_ptr->value()); }
+
+    Iterator &operator++() {
+      m_ptr++;
+      return *this;
+    }
+
+    Iterator operator++(int) {
+      Iterator tmp = *this;
+      ++(*this);
+      return tmp;
+    }
+
+    friend bool operator==(const Iterator &a, const Iterator &b) {
+      return a.m_ptr == b.m_ptr;
+    }
+
+    friend bool operator!=(const Iterator &a, const Iterator &b) {
+      return a.m_ptr != b.m_ptr;
+    }
+
+  private:
+    std::optional<T> *m_ptr;
+  };
+
+public:
+  Iterator<T> begin() { return Iterator(m_data.get()); }
+  Iterator<T> end() { return Iterator(m_data.get() + m_size); }
+
+}; // DynamicArray
 } // namespace arrays
 } // namespace vics_data_structures

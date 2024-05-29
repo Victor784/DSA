@@ -9,6 +9,8 @@ add_subdirectory(DynamicArray)
 add_subdirectory(LinkedLists)
 add_subdirectory(Stack)
 add_subdirectory(Queue)
+add_subdirectory(HashTable)
+
 
 add_library(DataStructures INTERFACE)
 
@@ -17,6 +19,7 @@ target_link_libraries(DataStructures INTERFACE DynamicArray)
 target_link_libraries(DataStructures INTERFACE LinkedLists)
 target_link_libraries(DataStructures INTERFACE Stack)
 target_link_libraries(DataStructures INTERFACE Queue)
+target_link_libraries(DataStructures INTERFACE HashTable)
 
 install(TARGETS DataStructures
         EXPORT DataStructuresTargets
@@ -55,14 +58,22 @@ add_test(NAME StackTest COMMAND StackTest)
 # Queue fixture
 add_executable(QueueTest test/QueueTest.cpp)
 set(HEADERS_DIR "${CMAKE_SOURCE_DIR}/lib")
-target_include_directories(StackTest PUBLIC ${HEADERS_DIR})
+target_include_directories(QueueTest PUBLIC ${HEADERS_DIR})
 target_link_libraries(QueueTest gtest gtest_main Queue)
 add_test(NAME QueueTest COMMAND QueueTest)
+
+# HashTable fixture
+add_executable(HashTableTest test/HashTableTest.cpp)
+set(HEADERS_DIR "${CMAKE_SOURCE_DIR}/lib")
+target_include_directories(HashTableTest PUBLIC ${HEADERS_DIR})
+target_link_libraries(HashTableTest gtest gtest_main HashTable)
+add_test(NAME HashTableTest COMMAND HashTableTest)
 
 add_dependencies(DynamicArrayTest DynamicArray)
 add_dependencies(LinkedListsTest LinkedLists )
 add_dependencies(StackTest Stack )
 add_dependencies(QueueTest Queue )
+add_dependencies(HashTableTest HashTable )
 
 # Some other fixture
 #add_executable(SomeOtherTest test/SomeOtherTest.cpp)
