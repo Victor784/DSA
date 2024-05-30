@@ -81,12 +81,12 @@ public:
   // SinglyLinkedList &operator=(const SinglyLinkedList &other) = delete;
   SinglyLinkedList(const SinglyLinkedList &other) {
     if (other.m_head) {
-      m_head = new Node(other.m_head->data);
-      Node *current = m_head;
-      Node *otherCurrent = other.m_head->next;
+      m_head = new Node(other.m_head->data.value());
+      Node<T> *current = m_head;
+      Node<T> *otherCurrent = other.m_head->next;
 
       while (otherCurrent) {
-        current->next = new Node(otherCurrent->data);
+        current->next = new Node<T>(otherCurrent->data.value());
         current = current->next;
         otherCurrent = otherCurrent->next;
       }
@@ -101,12 +101,12 @@ public:
     if (this != &other) {
       clear();
       if (other.m_head) {
-        m_head = new Node(other.m_head->data);
-        Node *current = m_head;
-        Node *otherCurrent = other.m_head->next;
+        m_head = new Node<T>(other.m_head->data);
+        Node<T> *current = m_head;
+        Node<T> *otherCurrent = other.m_head->next;
 
         while (otherCurrent) {
-          current->next = new Node(otherCurrent->data);
+          current->next = new Node<T>(otherCurrent->data);
           current = current->next;
           otherCurrent = otherCurrent->next;
         }

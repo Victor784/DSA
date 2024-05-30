@@ -107,15 +107,13 @@ public:
 
   V *search(K key) {
     int index = hashFunction(key);
-    auto it = std::find_if(
-        buckets[index].value().begin(), buckets[index].value().end(),
-        [&key](
-            const typename linked_lists::singly_linked_list::SinglyLinkedList<
-                std::pair<K, V>>::Node &element) {
-          return element.data.first == key;
-        });
-    if (it != buckets[index].value().end()) {
-      return &it->data.second;
+    auto it =
+        std::find_if(buckets[index].value().begin(),
+                     buckets[index].value().end(), [&key](const auto &element) {
+                       return element.data.value().first == key;
+                     });
+    if (it->data.has_value()) {
+      return &it->data.value().second;
     }
     return nullptr;
   }

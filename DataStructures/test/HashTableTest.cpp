@@ -63,7 +63,7 @@ TEST(HashTableTest, HashTable_handle_collisions) {
   HashTable<int, int> table(8);
 
   table.insert(1, 10);
-  table.insert(9, 90); // Assuming a small table and a poor hash function, these
+  table.insert(9, 90); // Assuming a small table and a poor hash function these
                        // might collide
   table.insert(17, 170); // These might also collide
 
