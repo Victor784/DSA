@@ -269,7 +269,7 @@ public:
   }
 
   std::optional<T> operator[](index_t index) const {
-    if (index >= m_size) {
+    if (index > m_size) {
       throw std::out_of_range("Index out of bounds");
     }
     Node<T> *current = m_head;

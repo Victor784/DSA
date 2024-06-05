@@ -75,7 +75,14 @@ public:
       rehash();
     }
     int index = hashFunction(key);
-    buckets[index].value().push_back(std::make_pair(key, value));
+    if (!buckets[index].has_value()) {
+      linked_lists::singly_linked_list::SinglyLinkedList<std::pair<K, V>>
+          someLists{};
+      buckets[index] = std::make_optional(someLists);
+      buckets[index]->push_back(std::make_pair(key, value));
+    } else {
+      buckets[index]->push_back(std::make_pair(key, value));
+    }
     size++;
   }
 

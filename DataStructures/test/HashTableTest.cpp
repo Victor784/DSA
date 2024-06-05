@@ -15,6 +15,7 @@ TEST(HashTableTest, HashTable_creates_an_empty_table_with_initial_capacity) {
 TEST(HashTableTest, HashTable_insert_and_search_elements) {
   HashTable<std::string, int> table(8);
 
+  table.insert("zero", 0);
   table.insert("one", 1);
   table.insert("two", 2);
   table.insert("three", 3);
@@ -63,8 +64,8 @@ TEST(HashTableTest, HashTable_handle_collisions) {
   HashTable<int, int> table(8);
 
   table.insert(1, 10);
-  table.insert(9, 90); // Assuming a small table and a poor hash function these
-                       // might collide
+  table.insert(9, 90); // Assuming a small table and a poor hash function
+  // these might collide
   table.insert(17, 170); // These might also collide
 
   EXPECT_EQ(*table.search(1), 10);

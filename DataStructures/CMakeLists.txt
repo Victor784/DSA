@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.25)
 project(DataStructuresProject)
 set(CMAKE_CXX_STANDARD 20)
-
+set(CMAKE_BUILD_TYPE Debug)
 
 message("-> CMake generation started...")
 #Modules
@@ -75,10 +75,11 @@ add_dependencies(StackTest Stack )
 add_dependencies(QueueTest Queue )
 add_dependencies(HashTableTest HashTable )
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Some other fixture
 #add_executable(SomeOtherTest test/SomeOtherTest.cpp)
 #set(HEADERS_DIR "${CMAKE_SOURCE_DIR}/lib")
 #target_include_directories(SomeOtherTest PUBLIC ${HEADERS_DIR})
 #target_link_libraries(SomeOtherTest gtest gtest_main SomeOtherDependency)
 #add_test(NAME SomeOtherTest COMMAND SomeOtherTest)
-

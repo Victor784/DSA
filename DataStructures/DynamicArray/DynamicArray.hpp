@@ -71,7 +71,7 @@ public:
   bool is_empty() { return m_size == 0; }
 
   std::optional<T> operator[](index_t index) const {
-    if (index >= m_size) {
+    if (index >= m_capacity) {
       throw std::out_of_range("Index out of bounds");
     }
 
