@@ -23,7 +23,7 @@ The following data structures should be / will be implemented using C++ :
 2. Linked list(singly/doubly) - done
 3. Stacks - done 
 4. Queue - done 
-5. Hash table 
+5. Hash table - done 
 6. Binary trees
    6.a Binary search trees
    6.b Balanced trees

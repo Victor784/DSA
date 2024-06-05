@@ -5,11 +5,11 @@ set(CMAKE_BUILD_TYPE Debug)
 
 message("-> CMake generation started...")
 #Modules
-add_subdirectory(DynamicArray)
-add_subdirectory(LinkedLists)
-add_subdirectory(Stack)
-add_subdirectory(Queue)
-add_subdirectory(HashTable)
+add_subdirectory(src/DynamicArray)
+add_subdirectory(src/LinkedLists)
+add_subdirectory(src/Stack)
+add_subdirectory(src/Queue)
+add_subdirectory(src/HashTable)
 
 
 add_library(DataStructures INTERFACE)

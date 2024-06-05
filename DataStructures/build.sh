@@ -18,12 +18,12 @@ DEST_DIR="$(pwd)"
 
 # Source directory - add here all hpp headers once created
 
-DYNAMICARRAY_HEADER_SOURCE="${SCRIPT_DIR}/DynamicArray/DynamicArray.hpp"
-SINGLYLINKEDLISTS_HEADER_SOURCE="${SCRIPT_DIR}/LinkedLists/SinglyLinkedList.hpp"
-DOUBLYLINKEDLISTS_HEADER_SOURCE="${SCRIPT_DIR}/LinkedLists/DoublyLinkedList.hpp"
-STACK_HEADER_SOURCE="${SCRIPT_DIR}/Stack/Stack.hpp"
-QUEUE_HEADER_SOURCE="${SCRIPT_DIR}/Queue/Queue.hpp"
-HASHTABLE_HEADER_SOURCE="${SCRIPT_DIR}/HashTable/HashTable.hpp"
+DYNAMICARRAY_HEADER_SOURCE="${SCRIPT_DIR}/src/DynamicArray/DynamicArray.hpp"
+SINGLYLINKEDLISTS_HEADER_SOURCE="${SCRIPT_DIR}/src/LinkedLists/SinglyLinkedList.hpp"
+DOUBLYLINKEDLISTS_HEADER_SOURCE="${SCRIPT_DIR}/src/LinkedLists/DoublyLinkedList.hpp"
+STACK_HEADER_SOURCE="${SCRIPT_DIR}/src/Stack/Stack.hpp"
+QUEUE_HEADER_SOURCE="${SCRIPT_DIR}/src/Queue/Queue.hpp"
+HASHTABLE_HEADER_SOURCE="${SCRIPT_DIR}/src/HashTable/HashTable.hpp"
 #echo ${DYNAMICARRAY_HEADER_SOURCE}
 #echo ${DEST_DIR}
 
