@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <iostream>
 #include <mutex>
-#include <optional>
 #include <stdexcept>
 #include <utility>
 
@@ -22,13 +21,13 @@ public:
 
     m_size = 0;
     m_capacity = MIN_CAPACITY;
-    m_data = std::make_unique<std::optional<T>[]>(m_capacity);
+    m_data = std::make_unique<T[]>(m_capacity);
   }
   DynamicArray(const int initialCapacity) {
 
     m_size = 0;
     m_capacity = initialCapacity;
-    m_data = std::make_unique<std::optional<T>[]>(m_capacity);
+    m_data = std::make_unique<T[]>(m_capacity);
   }
 
   ~DynamicArray() = default;
@@ -54,30 +53,28 @@ public:
   std::size_t getLength() { return m_size; }
   std::size_t getCapacity() { return m_capacity; }
 
-  void push_back(const std::optional<T> &newElement = std::nullopt) {
+  void push_back(const T &newElement) {
     std::lock_guard<std::mutex> lock(dynamicArrayMutex);
     if (m_size >= m_capacity)
       resize();
-    if (newElement.has_value())
-      m_data[m_size++] = newElement.value();
+    m_data[m_size++] = newElement;
   }
-  std::optional<T> pop_back() {
+  T *pop_back() {
+    if (m_size <= 0)
+      return nullptr;
     std::lock_guard<std::mutex> lock(dynamicArrayMutex);
-    if (m_size > 0)
-      return m_data[--m_size];
-    else
-      return std::nullopt;
+    return &m_data[--m_size];
   }
   bool is_empty() { return m_size == 0; }
 
-  std::optional<T> &operator[](index_t index) {
+  T &operator[](index_t index) {
     if (index >= m_capacity) {
       throw std::out_of_range("Index out of bounds");
     }
     return m_data[index];
   }
 
-  const std::optional<T> &operator[](index_t index) const {
+  const T &operator[](index_t index) const {
     if (index >= m_capacity) {
       throw std::out_of_range("Index out of bounds");
     }
@@ -102,16 +99,15 @@ public:
   }
 
 public:
-  void public_resize(std::optional<size_t> newCapacity = std::nullopt) {
-    resize(newCapacity);
-  }
+  void public_resize(size_t newCapacity) { resize(newCapacity); }
 
 private:
-  void resize(std::optional<size_t> newCapacity = std::nullopt) {
-    size_t effectiveCapacity = newCapacity.value_or(m_capacity * GROWTH_FACTOR);
+  void resize(size_t newCapacity = 0) {
+    size_t effectiveCapacity =
+        newCapacity != 0 ? newCapacity : m_capacity * GROWTH_FACTOR;
     if (effectiveCapacity <= m_capacity)
       return;
-    auto newArray = std::make_unique<std::optional<T>[]>(effectiveCapacity);
+    auto newArray = std::make_unique<T[]>(effectiveCapacity);
 
     for (index_t i = 0; i < m_size; ++i) {
       newArray[i] = std::move(m_data[i]);
@@ -124,7 +120,7 @@ private:
 
   std::size_t m_size;
   std::size_t m_capacity;
-  std::unique_ptr<std::optional<T>[]> m_data;
+  std::unique_ptr<T[]> m_data;
   std::mutex dynamicArrayMutex;
 
   template <typename T> struct Iterator {
@@ -135,10 +131,10 @@ private:
     using pointer = T *;   // or also value_type*
     using reference = T &; // or also value_type&
 
-    Iterator(std::optional<T> *ptr) : m_ptr(ptr) {}
+    Iterator(T *ptr) : m_ptr(ptr) {}
 
-    reference operator*() const { return m_ptr->value(); }
-    pointer operator->() { return &(m_ptr->value()); }
+    reference operator*() const { return *m_ptr; }
+    pointer operator->() { return &m_ptr; }
 
     Iterator &operator++() {
       m_ptr++;
@@ -160,7 +156,7 @@ private:
     }
 
   private:
-    std::optional<T> *m_ptr;
+    T *m_ptr;
   };
 
 public:

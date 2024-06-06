@@ -3,7 +3,6 @@
 #include <cstddef>
 #include <iterator>
 #include <mutex>
-#include <optional>
 #include <stdexcept>
 
 namespace vics_data_structures {
@@ -19,11 +18,10 @@ template <typename T> class DoublyLinkedList {
 private:
   template <typename T> struct Node {
   public:
-    std::optional<T> data;
+    T data;
     Node<T> *next;
     Node<T> *prev;
-    Node(const T &data)
-        : data(std::make_optional(data)), prev(nullptr), next(nullptr) {}
+    Node(const T &data) : data(data), prev(nullptr), next(nullptr) {}
 
     friend bool operator==(const Node<T> &lhs, const Node<T> &rhs) {
       return lhs.data == rhs.data && lhs.prev == rhs.prev &&
@@ -187,10 +185,10 @@ public:
       m_size++;
     }
   }
-  std::optional<T> pop_front() {
+  T pop_front() {
     std::lock_guard<std::mutex> lock(m_mutex);
     if (!m_head)
-      return std::nullopt;
+      throw std::out_of_range("List is empty");
     Node<T> *temp = m_head;
     if (m_head == m_tail) {
       const auto data = m_head->data;
@@ -201,26 +199,26 @@ public:
     }
     m_head->next->prev = nullptr;
     m_head = m_head->next;
-    const auto data = temp->data;
+    auto data = temp->data;
     delete temp;
     if (!m_head)
       m_tail = nullptr;
     m_size--;
     return data;
   }
-  std::optional<T> pop_back() {
+  T pop_back() {
     std::lock_guard<std::mutex> lock(m_mutex);
     if (!m_head)
-      return std::nullopt;
+      throw std::out_of_range("List is empty");
     if (m_head == m_tail) {
-      const auto data = m_head->data;
+      auto data = m_head->data;
       delete m_head;
       m_head = m_tail = nullptr;
       m_size = 0;
       return data;
     }
     Node<T> *newTail = m_tail->prev;
-    const auto data = m_tail->data;
+    auto data = m_tail->data;
     delete m_tail;
     m_tail = newTail;
     m_tail->next = nullptr;
@@ -230,7 +228,7 @@ public:
   void erase(index_t pos) {
     Node<T> *current;
     if (!m_head)
-      throw std::out_of_range("Index out of bounds");
+      throw std::out_of_range("List is empty");
     if (pos == 0) {
       pop_front();
     } else if (pos >= m_size - 1) {
@@ -256,18 +254,18 @@ public:
       m_size--;
     }
   }
-  std::optional<T> front() {
+  T front() {
     if (!m_head)
-      return std::nullopt;
+      throw std::out_of_range("List is empty");
     return m_head->data;
   }
-  std::optional<T> back() {
-    if (!m_tail)
-      return std::nullopt;
+  T back() {
+    if (!m_head)
+      throw std::out_of_range("List is empty");
     return m_tail->data;
   }
 
-  std::optional<T> operator[](index_t index) const {
+  T operator[](index_t index) const {
     if (index >= m_size) {
       throw std::out_of_range("Index out of bounds");
     }

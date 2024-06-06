@@ -29,9 +29,8 @@ private:
     for (const linked_lists::singly_linked_list::SinglyLinkedList<
              std::pair<K, V>> &bucket : buckets) {
       for (const auto &element : bucket) {
-        int newIndex =
-            std::hash<K>{}(element.data.value().first) % newNumBuckets;
-        newBuckets[newIndex].value().push_back(element.data.value());
+        int newIndex = std::hash<K>{}(element.data.first) % newNumBuckets;
+        newBuckets[newIndex].push_back(element.data);
       }
     }
 
@@ -71,19 +70,12 @@ public:
   HashTable &operator=(const HashTable &) = delete;
 
   void insert(K key, V value) {
-    // if ((float)size / numBuckets > 0.75) {
-    //   rehash();
-    // }
-    // int index = hashFunction(key);
-    // if (!buckets[index].has_value()) {
-    //   linked_lists::singly_linked_list::SinglyLinkedList<std::pair<K, V>>
-    //       someList{};
-    //   someList.push_back(std::make_pair(key, value));
-    //   buckets.insert(index, std::move(someList));
-    // } else {
-    //   buckets[index].push_back(std::make_pair(key, value));
-    // }
-    // size++;
+    if ((float)size / numBuckets > 0.75) {
+      rehash();
+    }
+    int index = hashFunction(key);
+    buckets[index].push_back(std::make_pair(key, value));
+    size++;
   }
 
   bool remove(K key) {
@@ -94,17 +86,16 @@ public:
     bool found = false;
     size_t pos = 0;
 
-    for (auto it = buckets[index].value().begin();
-         it != buckets[index].value().end(); ++it, ++elementIndex) {
-      if (it->data->first == key) {
+    for (auto it = buckets[index].begin(); it != buckets[index].end();
+         ++it, ++elementIndex) {
+      if (it->data.first == key) {
         found = true;
         break;
       }
     }
 
     if (found) {
-      buckets[index].value().erase(
-          elementIndex); // Remove the element by its index
+      buckets[index].erase(elementIndex); // Remove the element by its index
       size--;
       return true;
     }
@@ -114,13 +105,11 @@ public:
 
   V *search(K key) {
     int index = hashFunction(key);
-    auto it =
-        std::find_if(buckets[index].value().begin(),
-                     buckets[index].value().end(), [&key](const auto &element) {
-                       return element.data.value().first == key;
-                     });
-    if (it->data.has_value()) {
-      return &it->data.value().second;
+    auto it = std::find_if(
+        buckets[index].begin(), buckets[index].end(),
+        [&key](const auto &element) { return element.data.first == key; });
+    if (it != buckets[index].end()) {
+      return &it->data.second;
     }
     return nullptr;
   }

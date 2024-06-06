@@ -79,28 +79,28 @@ TEST(DynamicArrayTest,
   EXPECT_EQ(arr.getLength(), 0);
   EXPECT_TRUE(arr.is_empty());
 
-  arr.push_back(std::make_optional(1));
+  arr.push_back(1);
   EXPECT_EQ(arr.getLength(), 1);
   ASSERT_EQ(arr.getCapacity(), 10);
   EXPECT_EQ(arr[0], 1);
 
-  arr.push_back(std::make_optional(2));
+  arr.push_back(2);
   EXPECT_EQ(arr.getLength(), 2);
   ASSERT_EQ(arr.getCapacity(), 10);
   EXPECT_EQ(arr[0], 1);
   EXPECT_EQ(arr[1], 2);
 
-  arr.push_back(std::make_optional(3));
-  arr.push_back(std::make_optional(4));
-  arr.push_back(std::make_optional(5));
-  arr.push_back(std::make_optional(6));
-  arr.push_back(std::make_optional(7));
-  arr.push_back(std::make_optional(8));
-  arr.push_back(std::make_optional(9));
+  arr.push_back(3);
+  arr.push_back(4);
+  arr.push_back(5);
+  arr.push_back(6);
+  arr.push_back(7);
+  arr.push_back(8);
+  arr.push_back(9);
   EXPECT_EQ(arr.getLength(), 9);
   ASSERT_EQ(arr.getCapacity(), 10);
-  arr.push_back(std::make_optional(10));
-  arr.push_back(std::make_optional(11));
+  arr.push_back(10);
+  arr.push_back(11);
   EXPECT_EQ(arr.getLength(), 11);
   ASSERT_EQ(arr.getCapacity(), 20);
 }
@@ -113,27 +113,27 @@ TEST(
   EXPECT_EQ(arr.getLength(), 0);
   EXPECT_TRUE(arr.is_empty());
 
-  EXPECT_EQ(arr.pop_back(), std::nullopt);
+  EXPECT_EQ(arr.pop_back(), nullptr);
   EXPECT_EQ(arr.getLength(), 0);
 
-  arr.push_back(std::make_optional(1));
+  arr.push_back(1);
   EXPECT_EQ(arr.getLength(), 1);
-  arr.push_back(std::make_optional(2));
+  arr.push_back(2);
   EXPECT_EQ(arr.getLength(), 2);
-  arr.push_back(std::make_optional(3));
-  arr.push_back(std::make_optional(4));
-  arr.push_back(std::make_optional(5));
-  arr.push_back(std::make_optional(6));
-  arr.push_back(std::make_optional(7));
-  arr.push_back(std::make_optional(8));
-  arr.push_back(std::make_optional(9));
-  arr.push_back(std::make_optional(10));
-  arr.push_back(std::make_optional(11));
+  arr.push_back(3);
+  arr.push_back(4);
+  arr.push_back(5);
+  arr.push_back(6);
+  arr.push_back(7);
+  arr.push_back(8);
+  arr.push_back(9);
+  arr.push_back(10);
+  arr.push_back(11);
   EXPECT_EQ(arr.getLength(), 11);
   ASSERT_EQ(arr.getCapacity(), 20);
   EXPECT_FALSE(arr.is_empty());
 
-  const auto ret = arr.pop_back();
+  const auto ret = *arr.pop_back();
   ASSERT_EQ(arr.getLength(), 10);
   EXPECT_EQ(ret, 11);
   ASSERT_EQ(arr.getCapacity(), 20); // capacity does not change

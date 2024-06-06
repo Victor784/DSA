@@ -43,7 +43,7 @@ TEST(LinkedListsTest,
 
   // Verify that list2 has taken ownership of the elements from list1
   ASSERT_TRUE(list1.is_empty());
-  ASSERT_TRUE(list2.front().has_value());
+  ASSERT_EQ(list2.front(), 1);
   ASSERT_EQ(list2.getSize(), 2);
 }
 
@@ -86,10 +86,10 @@ TEST(
   list.push_back(point2);
   list.push_back(point3);
   ASSERT_EQ(list.getSize(), 3);
-  ASSERT_EQ(list.getHeadNode()->data.value().getX(), 1);
-  ASSERT_EQ(list.getHeadNode()->data.value().getY(), 2);
-  ASSERT_EQ(list.getTailNode()->data.value().getX(), 5);
-  ASSERT_EQ(list.getTailNode()->data.value().getY(), 6);
+  ASSERT_EQ(list.getHeadNode()->data.getX(), 1);
+  ASSERT_EQ(list.getHeadNode()->data.getY(), 2);
+  ASSERT_EQ(list.getTailNode()->data.getX(), 5);
+  ASSERT_EQ(list.getTailNode()->data.getY(), 6);
 }
 
 TEST(
@@ -100,8 +100,8 @@ TEST(
   list.push_back(2);
   list.push_back(3);
   ASSERT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 3);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 3);
 }
 
 TEST(
@@ -120,7 +120,7 @@ TEST(
 
 TEST(LinkedListsTest, SinglyLinkedList_begin_returns_interator_for_head_node) {
   singly_linked_list::SinglyLinkedList<int> list;
-  // EXPECT_EQ(list.begin()->data.value(), 1);
+  // EXPECT_EQ(list.begin()->data, 1);
   EXPECT_EQ(list.begin(), list.getHeadNode());
 }
 TEST(LinkedListsTest, SinglyLinkedList_end_returns_interator_over_tail_node) {
@@ -132,8 +132,8 @@ TEST(LinkedListsTest,
   singly_linked_list::SinglyLinkedList<int> list;
   list.push_front(1);
   ASSERT_EQ(list.getSize(), 1);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 1);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 1);
 }
 TEST(
     LinkedListsTest,
@@ -142,18 +142,18 @@ TEST(
   list.push_back(1);
   list.push_back(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
   list.push_front(3);
   EXPECT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 3);
+  EXPECT_EQ(list.getHeadNode()->data, 3);
 }
 TEST(LinkedListsTest,
      SinglyLinkedList_push_back_inserts_new_node_with_empty_list) {
   singly_linked_list::SinglyLinkedList<int> list;
   list.push_back(1);
   ASSERT_EQ(list.getSize(), 1);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 1);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 1);
 }
 TEST(
     LinkedListsTest,
@@ -162,22 +162,22 @@ TEST(
   list.push_front(1);
   list.push_front(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getTailNode()->data.value(), 1);
+  EXPECT_EQ(list.getTailNode()->data, 1);
   list.push_back(3);
   EXPECT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getTailNode()->data.value(), 3);
+  EXPECT_EQ(list.getTailNode()->data, 3);
 }
 TEST(LinkedListsTest, SinglyLinkedList_insert_inserts_new_node_on_valid_index) {
   singly_linked_list::SinglyLinkedList<int> list;
   list.push_back(1);
   list.push_back(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 2);
   list.insert(3, 1);
   ASSERT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 2);
 }
 
 TEST(LinkedListsTest,
@@ -186,12 +186,12 @@ TEST(LinkedListsTest,
   list.push_back(1);
   list.push_back(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 2);
   list.insert(3, 0);
   ASSERT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 3);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 3);
+  EXPECT_EQ(list.getTailNode()->data, 2);
 }
 TEST(
     LinkedListsTest,
@@ -200,29 +200,28 @@ TEST(
   list.push_back(1);
   list.push_back(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 2);
   list.insert(3, 3);
   ASSERT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 3);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 3);
 
   list.insert(4, 4);
   ASSERT_EQ(list.getSize(), 4);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 4);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 4);
 
   list.insert(5, 7);
   ASSERT_EQ(list.getSize(), 5);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 5);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 5);
 }
 TEST(LinkedListsTest,
      SinglyLinkedList_pop_front_returns_null_opt_for_empty_list) {
   singly_linked_list::SinglyLinkedList<int> list;
   ASSERT_EQ(list.getSize(), 0);
-  const auto ret = list.pop_front();
-  EXPECT_EQ(ret, std::nullopt);
+  EXPECT_THROW(list.pop_front(), std::out_of_range);
 }
 TEST(LinkedListsTest,
      SinglyLinkedList_pop_front_deletes_head_node_and_returns_its_value) {
@@ -233,15 +232,14 @@ TEST(LinkedListsTest,
   ASSERT_EQ(list.getSize(), 3);
   const auto ret = list.pop_front();
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(ret.value(), 1);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 2);
+  EXPECT_EQ(ret, 1);
+  EXPECT_EQ(list.getHeadNode()->data, 2);
 }
 TEST(LinkedListsTest,
      SinglyLinkedList_pop_back_returns_null_opt_for_empty_list) {
   singly_linked_list::SinglyLinkedList<int> list;
   ASSERT_EQ(list.getSize(), 0);
-  const auto ret = list.pop_back();
-  EXPECT_EQ(ret, std::nullopt);
+  EXPECT_THROW(list.pop_back(), std::out_of_range);
 }
 TEST(LinkedListsTest,
      SinglyLinkedList_pop_back_deletes_tail_node_and_returns_its_value) {
@@ -252,8 +250,8 @@ TEST(LinkedListsTest,
   ASSERT_EQ(list.getSize(), 3);
   const auto ret = list.pop_back();
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(ret.value(), 3);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(ret, 3);
+  EXPECT_EQ(list.getTailNode()->data, 2);
 }
 TEST(LinkedListsTest, SinglyLinkedList_erase_deletes_head_node_for_index_eq_0) {
   singly_linked_list::SinglyLinkedList<int> list;
@@ -263,7 +261,7 @@ TEST(LinkedListsTest, SinglyLinkedList_erase_deletes_head_node_for_index_eq_0) {
   ASSERT_EQ(list.getSize(), 3);
   list.erase(0);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 2);
 }
 TEST(LinkedListsTest,
      SinglyLinkedList_erase_deletes_tail_node_for_index_eq_size) {
@@ -274,7 +272,7 @@ TEST(LinkedListsTest,
   ASSERT_EQ(list.getSize(), 3);
   list.erase(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getTailNode()->data, 2);
 }
 TEST(LinkedListsTest, SinglyLinkedList_erase_throws_for_empty_list) {
   singly_linked_list::SinglyLinkedList<int> list;
@@ -290,8 +288,8 @@ TEST(LinkedListsTest, SinglyLinkedList_erase_deletes_node_at_index) {
   ASSERT_EQ(list.getSize(), 3);
   list.erase(1);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 3);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 3);
 }
 TEST(LinkedListsTest, SinglyLinkedList_front_returns_data_from_head_node) {
   singly_linked_list::SinglyLinkedList<int> list;
@@ -299,7 +297,7 @@ TEST(LinkedListsTest, SinglyLinkedList_front_returns_data_from_head_node) {
   list.push_back(2);
   list.push_back(3);
   ASSERT_EQ(list.getSize(), 3);
-  const auto front = list.front().value();
+  const auto front = list.front();
   EXPECT_EQ(front, 1);
 }
 TEST(LinkedListsTest, SinglyLinkedList_back_returns_data_from_tail_node) {
@@ -308,7 +306,7 @@ TEST(LinkedListsTest, SinglyLinkedList_back_returns_data_from_tail_node) {
   list.push_back(2);
   list.push_back(3);
   ASSERT_EQ(list.getSize(), 3);
-  const auto back = list.back().value();
+  const auto back = list.back();
   EXPECT_EQ(back, 3);
 }
 TEST(LinkedListsTest,
@@ -327,9 +325,9 @@ TEST(LinkedListsTest,
   list.push_back(2);
   list.push_back(3);
   ASSERT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list[0].value(), 1);
-  EXPECT_EQ(list[1].value(), 2);
-  EXPECT_EQ(list[2].value(), 3);
+  EXPECT_EQ(list[0], 1);
+  EXPECT_EQ(list[1], 2);
+  EXPECT_EQ(list[2], 3);
 }
 TEST(
     LinkedListsTest,
@@ -350,9 +348,9 @@ TEST(LinkedListsTest, SinglyLinkedList_iterator_can_be_used_to_navigate_list) {
   list.push_back(3);
 
   ASSERT_EQ(list.getSize(), 3);
-  ASSERT_EQ(list[0].value(), 1);
-  ASSERT_EQ(list[1].value(), 2);
-  ASSERT_EQ(list[2].value(), 3);
+  ASSERT_EQ(list[0], 1);
+  ASSERT_EQ(list[1], 2);
+  ASSERT_EQ(list[2], 3);
   auto it = list.begin();
   ASSERT_EQ(it->data, 1);
   it++;
@@ -369,7 +367,7 @@ TEST(LinkedListsTest, SinglyLinkedList_can_be_used_in_std_find_alg) {
   list.push_back(3);
   auto result = std::find(list.begin(), list.end(), *list.getHeadNode());
   ASSERT_NE(result, list.end());
-  ASSERT_EQ(result->data.value(), 1);
+  ASSERT_EQ(result->data, 1);
   result = std::find(list.begin(), list.end(), *(list.getTailNode() + 1));
   ASSERT_EQ(result, list.end());
 }
@@ -394,7 +392,7 @@ TEST(LinkedListsTest,
 
   // Verify that list2 has taken ownership of the elements from list1
   ASSERT_TRUE(list1.is_empty());
-  ASSERT_TRUE(list2.front().has_value());
+  ASSERT_EQ(list2.front(), 1);
   ASSERT_EQ(list2.getSize(), 2);
 }
 
@@ -436,10 +434,10 @@ TEST(
   list.push_back(point2);
   list.push_back(point3);
   ASSERT_EQ(list.getSize(), 3);
-  ASSERT_EQ(list.getHeadNode()->data.value().getX(), 1);
-  ASSERT_EQ(list.getHeadNode()->data.value().getY(), 2);
-  ASSERT_EQ(list.getTailNode()->data.value().getX(), 5);
-  ASSERT_EQ(list.getTailNode()->data.value().getY(), 6);
+  ASSERT_EQ(list.getHeadNode()->data.getX(), 1);
+  ASSERT_EQ(list.getHeadNode()->data.getY(), 2);
+  ASSERT_EQ(list.getTailNode()->data.getX(), 5);
+  ASSERT_EQ(list.getTailNode()->data.getY(), 6);
 }
 
 TEST(
@@ -450,8 +448,8 @@ TEST(
   list.push_back(2);
   list.push_back(3);
   ASSERT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 3);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 3);
 }
 
 TEST(
@@ -470,7 +468,7 @@ TEST(
 
 TEST(LinkedListsTest, DoublyLinkedList_begin_returns_interator_for_head_node) {
   doubly_linked_list::DoublyLinkedList<int> list;
-  // EXPECT_EQ(list.begin()->data.value(), 1);
+  // EXPECT_EQ(list.begin()->data, 1);
   EXPECT_EQ(list.begin(), list.getHeadNode());
 }
 TEST(LinkedListsTest, DoublyLinkedList_end_returns_interator_over_tail_node) {
@@ -482,8 +480,8 @@ TEST(LinkedListsTest,
   doubly_linked_list::DoublyLinkedList<int> list;
   list.push_front(1);
   ASSERT_EQ(list.getSize(), 1);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 1);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 1);
 }
 TEST(
     LinkedListsTest,
@@ -492,18 +490,18 @@ TEST(
   list.push_back(1);
   list.push_back(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
   list.push_front(3);
   EXPECT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 3);
+  EXPECT_EQ(list.getHeadNode()->data, 3);
 }
 TEST(LinkedListsTest,
      DoublyLinkedList_push_back_inserts_new_node_with_empty_list) {
   doubly_linked_list::DoublyLinkedList<int> list;
   list.push_back(1);
   ASSERT_EQ(list.getSize(), 1);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 1);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 1);
 }
 TEST(
     LinkedListsTest,
@@ -512,22 +510,22 @@ TEST(
   list.push_front(1);
   list.push_front(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getTailNode()->data.value(), 1);
+  EXPECT_EQ(list.getTailNode()->data, 1);
   list.push_back(3);
   EXPECT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getTailNode()->data.value(), 3);
+  EXPECT_EQ(list.getTailNode()->data, 3);
 }
 TEST(LinkedListsTest, DoublyLinkedList_insert_inserts_new_node_on_valid_index) {
   doubly_linked_list::DoublyLinkedList<int> list;
   list.push_back(1);
   list.push_back(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 2);
   list.insert(3, 1);
   ASSERT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 2);
 }
 
 TEST(LinkedListsTest,
@@ -536,12 +534,12 @@ TEST(LinkedListsTest,
   list.push_back(1);
   list.push_back(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 2);
   list.insert(3, 0);
   ASSERT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 3);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 3);
+  EXPECT_EQ(list.getTailNode()->data, 2);
 }
 TEST(
     LinkedListsTest,
@@ -550,29 +548,28 @@ TEST(
   list.push_back(1);
   list.push_back(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 2);
   list.insert(3, 3);
   ASSERT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 3);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 3);
 
   list.insert(4, 4);
   ASSERT_EQ(list.getSize(), 4);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 4);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 4);
 
   list.insert(5, 7);
   ASSERT_EQ(list.getSize(), 5);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 5);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 5);
 }
 TEST(LinkedListsTest,
      DoublyLinkedList_pop_front_returns_null_opt_for_empty_list) {
   doubly_linked_list::DoublyLinkedList<int> list;
   ASSERT_EQ(list.getSize(), 0);
-  const auto ret = list.pop_front();
-  EXPECT_EQ(ret, std::nullopt);
+  EXPECT_THROW(list.pop_front();, std::out_of_range);
 }
 TEST(LinkedListsTest,
      DoublyLinkedList_pop_front_deletes_head_node_and_returns_its_value) {
@@ -583,15 +580,14 @@ TEST(LinkedListsTest,
   ASSERT_EQ(list.getSize(), 3);
   const auto ret = list.pop_front();
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(ret.value(), 1);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 2);
+  EXPECT_EQ(ret, 1);
+  EXPECT_EQ(list.getHeadNode()->data, 2);
 }
 TEST(LinkedListsTest,
      DoublyLinkedList_pop_back_returns_null_opt_for_empty_list) {
   doubly_linked_list::DoublyLinkedList<int> list;
   ASSERT_EQ(list.getSize(), 0);
-  const auto ret = list.pop_back();
-  EXPECT_EQ(ret, std::nullopt);
+  EXPECT_THROW(list.pop_front();, std::out_of_range);
 }
 TEST(LinkedListsTest,
      DoublyLinkedList_pop_back_deletes_tail_node_and_returns_its_value) {
@@ -602,8 +598,8 @@ TEST(LinkedListsTest,
   ASSERT_EQ(list.getSize(), 3);
   const auto ret = list.pop_back();
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(ret.value(), 3);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(ret, 3);
+  EXPECT_EQ(list.getTailNode()->data, 2);
 }
 TEST(LinkedListsTest, DoublyLinkedList_erase_deletes_head_node_for_index_eq_0) {
   doubly_linked_list::DoublyLinkedList<int> list;
@@ -613,7 +609,7 @@ TEST(LinkedListsTest, DoublyLinkedList_erase_deletes_head_node_for_index_eq_0) {
   ASSERT_EQ(list.getSize(), 3);
   list.erase(0);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 2);
+  EXPECT_EQ(list.getHeadNode()->data, 2);
 }
 TEST(LinkedListsTest,
      DoublyLinkedList_erase_deletes_tail_node_for_index_eq_size) {
@@ -624,7 +620,7 @@ TEST(LinkedListsTest,
   ASSERT_EQ(list.getSize(), 3);
   list.erase(2);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getTailNode()->data.value(), 2);
+  EXPECT_EQ(list.getTailNode()->data, 2);
 }
 TEST(LinkedListsTest, DoublyLinkedList_erase_throws_for_empty_list) {
   doubly_linked_list::DoublyLinkedList<int> list;
@@ -640,8 +636,8 @@ TEST(LinkedListsTest, DoublyLinkedList_erase_deletes_node_at_index) {
   ASSERT_EQ(list.getSize(), 3);
   list.erase(1);
   ASSERT_EQ(list.getSize(), 2);
-  EXPECT_EQ(list.getHeadNode()->data.value(), 1);
-  EXPECT_EQ(list.getTailNode()->data.value(), 3);
+  EXPECT_EQ(list.getHeadNode()->data, 1);
+  EXPECT_EQ(list.getTailNode()->data, 3);
 }
 TEST(LinkedListsTest, DoublyLinkedList_front_returns_data_from_head_node) {
   doubly_linked_list::DoublyLinkedList<int> list;
@@ -649,7 +645,7 @@ TEST(LinkedListsTest, DoublyLinkedList_front_returns_data_from_head_node) {
   list.push_back(2);
   list.push_back(3);
   ASSERT_EQ(list.getSize(), 3);
-  const auto front = list.front().value();
+  const auto front = list.front();
   EXPECT_EQ(front, 1);
 }
 TEST(LinkedListsTest, DoublyLinkedList_back_returns_data_from_tail_node) {
@@ -658,7 +654,7 @@ TEST(LinkedListsTest, DoublyLinkedList_back_returns_data_from_tail_node) {
   list.push_back(2);
   list.push_back(3);
   ASSERT_EQ(list.getSize(), 3);
-  const auto back = list.back().value();
+  const auto back = list.back();
   EXPECT_EQ(back, 3);
 }
 TEST(LinkedListsTest,
@@ -677,9 +673,9 @@ TEST(LinkedListsTest,
   list.push_back(2);
   list.push_back(3);
   ASSERT_EQ(list.getSize(), 3);
-  EXPECT_EQ(list[0].value(), 1);
-  EXPECT_EQ(list[1].value(), 2);
-  EXPECT_EQ(list[2].value(), 3);
+  EXPECT_EQ(list[0], 1);
+  EXPECT_EQ(list[1], 2);
+  EXPECT_EQ(list[2], 3);
 }
 TEST(
     LinkedListsTest,
@@ -701,9 +697,9 @@ TEST(LinkedListsTest,
   list.push_back(3);
 
   ASSERT_EQ(list.getSize(), 3);
-  ASSERT_EQ(list[0].value(), 1);
-  ASSERT_EQ(list[1].value(), 2);
-  ASSERT_EQ(list[2].value(), 3);
+  ASSERT_EQ(list[0], 1);
+  ASSERT_EQ(list[1], 2);
+  ASSERT_EQ(list[2], 3);
   auto it = list.begin();
   ASSERT_EQ(it->data, 1);
   it++;
@@ -721,9 +717,9 @@ TEST(LinkedListsTest,
   list.push_back(3);
 
   ASSERT_EQ(list.getSize(), 3);
-  ASSERT_EQ(list[0].value(), 1);
-  ASSERT_EQ(list[1].value(), 2);
-  ASSERT_EQ(list[2].value(), 3);
+  ASSERT_EQ(list[0], 1);
+  ASSERT_EQ(list[1], 2);
+  ASSERT_EQ(list[2], 3);
   auto it = list.end();
   ASSERT_EQ(it->data, 3);
   it--;
@@ -740,7 +736,7 @@ TEST(LinkedListsTest, DoublyLinkedList_can_be_used_in_std_find_alg) {
   list.push_back(3);
   auto result = std::find(list.begin(), list.end(), *list.getHeadNode());
   ASSERT_NE(result, list.end());
-  ASSERT_EQ(result->data.value(), 1);
+  ASSERT_EQ(result->data, 1);
   result = std::find(list.begin(), list.end(), *(list.getTailNode() + 1));
   ASSERT_EQ(result, list.end());
 }

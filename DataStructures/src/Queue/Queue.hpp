@@ -14,7 +14,7 @@ template <typename T> class Queue {
 public:
   void enqueue(const T &element) { queue.push_back(element); }
   void dequeue() { queue.pop_front(); }
-  const T &front() const { return queue.getHeadNode()->data.value(); }
+  const T &front() const { return queue.getHeadNode()->data; }
   bool isEmpty() { return queue.is_empty(); }
 
 public:

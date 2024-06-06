@@ -13,8 +13,8 @@ namespace vics_data_structures {
 template <typename T> class Stack {
 public:
   void push(const T &element) { stack.push_front(element); }
-  T pop() { return stack.pop_front().value(); }
-  const T peek() { return stack.getHeadNode()->data.value(); }
+  T pop() { return stack.pop_front(); }
+  const T peek() { return stack.getHeadNode()->data; }
   bool isEmpty() { return stack.is_empty(); }
 
 public:
