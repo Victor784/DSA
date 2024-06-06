@@ -10,6 +10,7 @@ add_subdirectory(src/LinkedLists)
 add_subdirectory(src/Stack)
 add_subdirectory(src/Queue)
 add_subdirectory(src/HashTable)
+add_subdirectory(src/BinaryTree)
 
 
 add_library(DataStructures INTERFACE)
@@ -20,6 +21,7 @@ target_link_libraries(DataStructures INTERFACE LinkedLists)
 target_link_libraries(DataStructures INTERFACE Stack)
 target_link_libraries(DataStructures INTERFACE Queue)
 target_link_libraries(DataStructures INTERFACE HashTable)
+target_link_libraries(DataStructures INTERFACE BinaryTree)
 
 install(TARGETS DataStructures
         EXPORT DataStructuresTargets
@@ -68,6 +70,13 @@ set(HEADERS_DIR "${CMAKE_SOURCE_DIR}/lib")
 target_include_directories(HashTableTest PUBLIC ${HEADERS_DIR})
 target_link_libraries(HashTableTest gtest gtest_main HashTable)
 add_test(NAME HashTableTest COMMAND HashTableTest)
+
+# BinaryTree fixture
+add_executable(BinaryTreeTest test/BinaryTreeTest.cpp)
+set(HEADERS_DIR "${CMAKE_SOURCE_DIR}/lib")
+target_include_directories(BinaryTreeTest PUBLIC ${HEADERS_DIR})
+target_link_libraries(BinaryTreeTest gtest gtest_main BinaryTree)
+add_test(NAME BinaryTreeTest COMMAND BinaryTreeTest)
 
 add_dependencies(DynamicArrayTest DynamicArray)
 add_dependencies(LinkedListsTest LinkedLists )

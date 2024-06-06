@@ -70,12 +70,35 @@ public:
   }
   bool is_empty() { return m_size == 0; }
 
-  std::optional<T> operator[](index_t index) const {
+  std::optional<T> &operator[](index_t index) {
     if (index >= m_capacity) {
       throw std::out_of_range("Index out of bounds");
     }
-
     return m_data[index];
+  }
+
+  const std::optional<T> &operator[](index_t index) const {
+    if (index >= m_capacity) {
+      throw std::out_of_range("Index out of bounds");
+    }
+    return m_data[index];
+  }
+
+  void insert(index_t index, const T &value) {
+    if (index > m_size) {
+      throw std::out_of_range("Index out of bounds");
+    }
+
+    if (m_size + 1 >= m_capacity) {
+      resize(m_capacity * 2);
+    }
+
+    for (index_t i = m_size; i > index; --i) {
+      m_data[i] = std::move(m_data[i - 1]);
+    }
+
+    m_data[index] = value;
+    ++m_size;
   }
 
 public:
