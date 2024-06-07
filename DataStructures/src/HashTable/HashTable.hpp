@@ -24,13 +24,12 @@ private:
     arrays::DynamicArray<
         linked_lists::singly_linked_list::SinglyLinkedList<std::pair<K, V>>>
         newBuckets(newNumBuckets);
-
-    // Rehash all elements into the new buckets
-    for (const linked_lists::singly_linked_list::SinglyLinkedList<
-             std::pair<K, V>> &bucket : buckets) {
-      for (const auto &element : bucket) {
-        int newIndex = std::hash<K>{}(element.data.first) % newNumBuckets;
-        newBuckets[newIndex].push_back(element.data);
+    // TODO: Change this to range based loops after implementing the features on
+    // the DS's.
+    for (int i = 0; i < numBuckets; ++i) {
+      for (int j = 0; j < buckets[i].getSize(); ++j) {
+        int newIndex = std::hash<K>{}(buckets[i][j].first) % newNumBuckets;
+        newBuckets[newIndex].push_back(buckets[i][j]);
       }
     }
 

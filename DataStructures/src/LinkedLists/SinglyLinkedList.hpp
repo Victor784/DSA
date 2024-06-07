@@ -80,12 +80,12 @@ public:
   // SinglyLinkedList &operator=(const SinglyLinkedList &other) = delete;
   SinglyLinkedList(const SinglyLinkedList &other) {
     if (other.m_head) {
-      m_head = new Node(other.m_head->data.value());
+      m_head = new Node(other.m_head->data);
       Node<T> *current = m_head;
       Node<T> *otherCurrent = other.m_head->next;
 
       while (otherCurrent) {
-        current->next = new Node<T>(otherCurrent->data.value());
+        current->next = new Node<T>(otherCurrent->data);
         current = current->next;
         otherCurrent = otherCurrent->next;
       }

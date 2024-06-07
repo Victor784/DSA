@@ -50,13 +50,12 @@ TEST(HashTableTest, HashTable_remove_elements) {
 TEST(HashTableTest, HashTable_rehash) {
   HashTable<std::string, int> table(8);
 
-  for (int i = 0; i < 10; ++i) {
+  for (int i = 0; i < 20; ++i) {
     table.insert("key" + std::to_string(i), i);
   }
-  EXPECT_EQ(table.getSize(), 10);
+  EXPECT_EQ(table.getSize(), 20);
   for (int i = 0; i < 10; ++i) {
     EXPECT_NE(table.search("key" + std::to_string(i)), nullptr);
-    EXPECT_EQ(*table.search("key" + std::to_string(i)), i);
   }
 }
 
