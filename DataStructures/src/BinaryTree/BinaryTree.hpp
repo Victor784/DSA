@@ -75,11 +75,6 @@ public:
     return getNrOfNodes(root);
   }
 
-  bool isComplete() const {
-    std::shared_lock<std::shared_mutex> lock(tree_mutex);
-    return isComplete(root, 0, getNrOfNodes());
-  }
-
 protected:
   void traversal(TreeNode<T> *node, TraversalType traversalType,
                  const std::function<void(const T &)> &callback) const {
@@ -116,63 +111,6 @@ protected:
     if (node == nullptr)
       return 0;
     return getNrOfNodes(node->left) + getNrOfNodes(node->right) + 1;
-  }
-
-  bool isComplete(TreeNode<T> *node, int index, int numNodes) const {
-    if (node == nullptr)
-      return true;
-
-    if (index >= numNodes)
-      return false;
-
-    return (isComplete(node->left, 2 * index + 1, numNodes) &&
-            isComplete(node->right, 2 * index + 2, numNodes));
-  }
-};
-
-template <typename T> class BinarySearchTree : public BinaryTree<T> {
-
-public:
-  void insertNode(const T &value) override {
-    std::unique_lock<std::shared_mutex> lock(this->tree_mutex);
-    insertNode(this->root, value);
-  }
-
-private:
-  void insertNode(TreeNode<T> *&node, const T &value) {
-    if (node == nullptr) {
-      node = new TreeNode<T>(value);
-    } else {
-      if (value < node->data) {
-        insertNode(node->left, value);
-      } else {
-        insertNode(node->right, value);
-      }
-    }
-  }
-};
-
-template <typename T> class CompleteBinaryTree : public BinaryTree<T> {
-
-public:
-  void insertNode(const T &value) override {
-    std::unique_lock<std::shared_mutex> lock(this->tree_mutex);
-    insertNode(this->root, value);
-  }
-
-private:
-  void insertNode(TreeNode<T> *&node, const T &value, int index = 0) {
-    if (node == nullptr) {
-      node = new TreeNode<T>(value);
-    } else {
-      if (index < this->getNrOfNodes()) {
-        if (index < (this->getNrOfNodes() / 2)) {
-          insertNode(node->left, value, 2 * index + 1);
-        } else {
-          insertNode(node->right, value, 2 * index + 2);
-        }
-      }
-    }
   }
 };
 
