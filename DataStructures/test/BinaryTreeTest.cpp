@@ -39,41 +39,7 @@ TEST(BinaryTreeTest, BinaryTree_constructor_works_as_expected) {
   //   EXPECT_TRUE(arr.is_empty());
 }
 
-TEST(BinaryTreeTest, CompleteBinaryTree_insertNode_add_one_element) {
-  //   vics_data_structures::arrays::DynamicArray<char> arr;
-  //   ASSERT_EQ(arr.getCapacity(), 10); // Test that initial capacity is 10s
-  //   EXPECT_EQ(arr.getLength(), 0);    // Init the size ptr is at the
-  //   beggining size_t initialSize = 0; for (int i = 0; i < arr.getLength();
-  //   ++i) {
-  //     initialSize += sizeof(arr[i]);
-  //   }
-  //   EXPECT_LE(initialSize,
-  //             sizeof(size_t) * 2 +
-  //                 sizeof(char) *
-  //                     10); // Espect that the object is smaller than the sum
-  //                     of
-  //                          // all its contents as the m_data is saved on heap
-  //   EXPECT_TRUE(arr.is_empty());
-}
-
 TEST(BinaryTreeTest, BinarySearchTree_insertNode_add_one_element) {
-  //   vics_data_structures::arrays::DynamicArray<char> arr;
-  //   ASSERT_EQ(arr.getCapacity(), 10); // Test that initial capacity is 10s
-  //   EXPECT_EQ(arr.getLength(), 0);    // Init the size ptr is at the
-  //   beggining size_t initialSize = 0; for (int i = 0; i < arr.getLength();
-  //   ++i) {
-  //     initialSize += sizeof(arr[i]);
-  //   }
-  //   EXPECT_LE(initialSize,
-  //             sizeof(size_t) * 2 +
-  //                 sizeof(char) *
-  //                     10); // Espect that the object is smaller than the sum
-  //                     of
-  //                          // all its contents as the m_data is saved on heap
-  //   EXPECT_TRUE(arr.is_empty());
-}
-
-TEST(BinaryTreeTest, CompleteBinaryTree_insertNode_add_one_element) {
   //   vics_data_structures::arrays::DynamicArray<char> arr;
   //   ASSERT_EQ(arr.getCapacity(), 10); // Test that initial capacity is 10s
   //   EXPECT_EQ(arr.getLength(), 0);    // Init the size ptr is at the
