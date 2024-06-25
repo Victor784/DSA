@@ -24,9 +24,7 @@ The following data structures should be / will be implemented using C++ :
 3. Stacks - done 
 4. Queue - done 
 5. Hash table - done 
-6. Binary trees
-   6.a Binary search trees
-   6.b Balanced trees
+6. Binary search tree - done 
 7. Heaps
 8. Priority Queue
 9. Graph
